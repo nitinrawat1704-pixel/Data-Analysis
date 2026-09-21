@@ -1,0 +1,21 @@
+offer_id,offer_name,category,reward_percentage,start_date,end_date,offer_cost
+O001,Entertainment Cashback 1,E-commerce,17.9,2025-07-01,2025-07-22,1458019.62
+O002,E-commerce Cashback 2,Grocery,6.8,2025-08-01,2025-08-31,376910.04
+O003,Retail Cashback 3,Utilities,13.7,2026-02-01,2026-03-18,1441993.45
+O004,Utilities Cashback 4,Grocery,16.8,2025-05-01,2025-05-22,874589.7
+O005,Travel Cashback 5,E-commerce,17.2,2025-05-01,2025-05-15,532126.64
+O006,Food Cashback 6,Entertainment,18.2,2025-12-01,2026-01-15,282782.27
+O007,Food Cashback 7,Food,5.4,2026-01-01,2026-01-15,921754.55
+O008,Fuel Cashback 8,Utilities,17.8,2026-03-01,2026-04-15,1033817.81
+O009,Utilities Cashback 9,Travel,3.2,2026-05-01,2026-05-31,1122389.32
+O010,Food Cashback 10,Utilities,17.9,2025-09-01,2025-10-01,1427468.6
+O011,Grocery Cashback 11,Fuel,15.0,2025-04-01,2025-04-22,1413945.44
+O012,Retail Cashback 12,Retail,16.3,2025-06-01,2025-06-15,1290431.63
+O013,Travel Cashback 13,Entertainment,9.1,2025-12-01,2025-12-22,831024.36
+O014,Fuel Cashback 14,Food,4.0,2025-04-01,2025-05-16,453654.54
+O015,E-commerce Cashback 15,Food,6.8,2026-01-01,2026-01-15,341506.24
+O016,Food Cashback 16,Retail,4.7,2025-05-01,2025-06-15,800696.88
+O017,E-commerce Cashback 17,Retail,17.9,2025-12-01,2026-01-15,207876.29
+O018,Utilities Cashback 18,Travel,11.5,2025-06-01,2025-06-15,1377959.93
+O019,Entertainment Cashback 19,Fuel,8.8,2026-05-01,2026-05-31,1333195.0
+O020,Retail Cashback 20,Grocery,15.4,2025-07-01,2025-07-22,531987.08
