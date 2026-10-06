@@ -63,3 +63,49 @@ select customer_id,round(ttl_amt,2) as "total amount" from cte where ttl_amt >
 select c.customer_id,group_concat(distinct(payment_product)) as "Payment_products" ,count(distinct(payment_product)) as "count"
 from customers c inner join transactions t on c.customer_id=t.customer_id
 where transaction_status="Success" group by 1 order by 3 desc;
+
+-- 11. Top Merchants by Transaction Value 
+
+select * from
+(
+select merchant_id,round(sum(amount),2)"ttl amount",count(*) as "ttl tnx" ,dense_rank()over(order by sum(amount) desc) as rnk 
+from transactions 
+where transaction_status="Success"
+group by 1 
+) as t where rnk <11;
+
+
+-- 12. Merchant Category Performance
+
+select category,round(sum(amount),2)"ttl amount",round(avg(amount),2)"avg amount",count(*) as "ttl tnx" 
+from merchants m inner join transactions t on m.merchant_id=t.merchant_id
+where transaction_status="Success"
+group by 1 order by 2 desc;
+
+-- 13. Merchant Performance by City
+
+select city,round(sum(amount),2)"ttl amount",round(avg(amount),2)"avg amount",count(*) as "ttl tnx" 
+from merchants m inner join transactions t on m.merchant_id=t.merchant_id
+where transaction_status="Success"
+group by 1 order by 2 desc;
+
+-- 14. Monthly Transaction Growth
+
+select date_format(transaction_date,'%M-%Y') as d,round(sum(amount),2)"ttl amount",round(avg(amount),2)"avg amount",count(*) as "ttl tnx"  
+from merchants m inner join transactions t on m.merchant_id=t.merchant_id
+where transaction_status="Success"
+group by 1 order by min(transaction_date);
+
+-- 15. Month-over-Month Growth
+
+with cte as 
+(
+select date_format(transaction_date,'%m-%Y') as d ,round(sum(amount),2) as "ttl_amount",YEAR(transaction_date) AS yr,MONTH(transaction_date) AS mn 
+from merchants m inner join transactions t on m.merchant_id=t.merchant_id
+where transaction_status="Success"
+group by date_format(transaction_date,'%m-%Y'),YEAR(transaction_date),MONTH(transaction_date)
+)
+select d,ttl_amount,lag(ttl_amount)over(order by yr,mn) as "previous month" ,
+concat(round(((((ttl_amount-lag(ttl_amount)over(order by yr,mn)))/lag(ttl_amount)over(order by yr,mn))*100),2),"%") as "Monthly growth"
+from cte order by yr,mn;
+
