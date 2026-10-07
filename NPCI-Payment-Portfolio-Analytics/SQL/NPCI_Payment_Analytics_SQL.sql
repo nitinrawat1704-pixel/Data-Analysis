@@ -109,3 +109,42 @@ select d,ttl_amount,lag(ttl_amount)over(order by yr,mn) as "previous month" ,
 concat(round(((((ttl_amount-lag(ttl_amount)over(order by yr,mn)))/lag(ttl_amount)over(order by yr,mn))*100),2),"%") as "Monthly growth"
 from cte order by yr,mn;
 
+
+--16. Rank Customers Within Each City
+
+select city,c.customer_id,round(sum(amount)) as "total_transactions",dense_rank()over(partition by city order by sum(amount) desc) as rnk
+from customers c inner join transactions t on c.customer_id=t.customer_id
+where transaction_status="Success" group by 1,2 ;
+
+--17. Top 3 Customers per City
+
+select * from
+(
+select city,c.customer_id,round(sum(amount)) as "total_transactions",dense_rank()over(partition by city order by sum(amount) desc) as rnk
+from customers c inner join transactions t on c.customer_id=t.customer_id
+where transaction_status="Success" group by 1,2 
+) as t where rnk <4 ;
+
+--18. Product Ranking
+
+select payment_product,round(sum(amount)) as "total_transactions",dense_rank()over(order by sum(amount) desc) as rnk
+from transactions 
+where transaction_status="Success" group by 1;
+
+
+--19. Offer Performance & ROI
+
+select 
+    offer_name,
+    count(distinct ou.customer_id) AS customers,
+    count(distinct ou.transaction_id) AS transactions,
+    round(sum(reward_amount)) as "total_reward_cost",
+    round(sum(amount)) as "total_amount",
+	(sum(amount)-sum(reward_amount))/nullif(sum(reward_amount),0)*100 as "ROI"
+from 
+	offer_usage ou inner join transactions t 
+	on ou.transaction_id=t.transaction_id
+	inner join offers o on ou.offer_id=o.offer_id
+group by 1 order by 1;
+
+
